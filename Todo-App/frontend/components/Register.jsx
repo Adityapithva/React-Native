@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import tw from 'twrnc';
 import axios from "axios";
 import { Link, useRouter } from 'expo-router';
@@ -11,10 +11,11 @@ export default function RegisterForm() {
     const router = useRouter();
     const handleRegister = async() => {
         try{
-            const response = await axios.post(`http://localhost:${process.env.PORT}/register`,{
+            const response = await axios.post(`http://192.168.3.19:4000/auth/register`,{
                 username,email,password
             });
-            console.log(response.data);
+            Alert.alert("Login successfull");
+            router.push("/Login");
         }catch(err){
             console.error(err)
         }

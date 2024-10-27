@@ -1,14 +1,22 @@
 import { Link, useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import tw from 'twrnc';
+import axios from "axios";
 
 export default function LoginForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const router = useRouter();
-    const handleLogin = () => {
-        console.log('Login button pressed');
+    const handleLogin = async() => {
+        try{
+            const response = await axios.post("http://192.168.3.19:4000/auth/login",{
+                email,password
+            });
+            Alert.alert("Login successfull");
+        }catch(err){
+            console.log(err);
+        }
     };
 
     return (

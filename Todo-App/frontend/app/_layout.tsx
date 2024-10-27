@@ -3,8 +3,9 @@ import React from "react";
 export default function RootLayout() {
   return (
     <Stack>
-      <Stack.Screen name="Login"  options={{title:"Login"}}/>
+      <Stack.Screen name="index"  options={{headerShown:false}}/>
       <Stack.Screen name="Register" options={{title:"Register"}}/>
+      <Stack.Screen name="Login" options={{title:"Login"}}/>
     </Stack>
   );
 }
