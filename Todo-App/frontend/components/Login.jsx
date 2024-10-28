@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import tw from 'twrnc';
 import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LoginForm() {
     const [email, setEmail] = useState('');
@@ -10,10 +11,13 @@ export default function LoginForm() {
     const router = useRouter();
     const handleLogin = async() => {
         try{
-            const response = await axios.post("http://192.168.3.19:4000/auth/login",{
+            const response = await axios.post("http://192.168.167.19:4000/auth/login",{
                 email,password
             });
+            const {token} = response.data;
+            await AsyncStorage.setItem("token",token);
             Alert.alert("Login successfull");
+            router.push("/dashboard");
         }catch(err){
             console.log(err);
         }

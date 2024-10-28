@@ -11,10 +11,10 @@ export default function RegisterForm() {
     const router = useRouter();
     const handleRegister = async() => {
         try{
-            const response = await axios.post(`http://192.168.3.19:4000/auth/register`,{
+            const response = await axios.post(`http://192.168.167.19:4000/auth/register`,{
                 username,email,password
             });
-            Alert.alert("Login successfull");
+            Alert.alert("Register successfull");
             router.push("/Login");
         }catch(err){
             console.error(err)
