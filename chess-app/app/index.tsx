@@ -9,7 +9,8 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <ChessBoard/>
+      {/* <ChessBoard/> */}
+      <Text>Hello World</Text>
     </View>
   );
 }
