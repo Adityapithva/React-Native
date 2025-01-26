@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export default function MyTrip() {
+export default function DecodePage() {
     return (
         <View>
-            <Text>mytrip</Text>
+            <Text>DecodePage</Text>
         </View>
     )
 }
