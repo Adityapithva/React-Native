@@ -21,7 +21,7 @@ export default function GenerateTrip() {
         .replace('{traveler}',tripData?.traveler?.title)
         .replace('{budget}',tripData.budget);
         console.log(FINAL_PROMPT);
-        const result = await chatSession.sendMessage("hello");
+        const result = await chatSession.sendMessage(FINAL_PROMPT);
         console.log(result.response.text());
         setLoading(false);
         router.push('(tabs)/mytrip');
