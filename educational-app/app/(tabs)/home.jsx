@@ -35,7 +35,6 @@ export default function Home() {
             paddingTop: Platform.OS == 'ios' && 45,
             flex: 1,
             backgroundColor: Colors.white,
-            height:'100%'
         }}>
             <Header />
             {courseList?.length == 0 ? 

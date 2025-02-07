@@ -24,6 +24,7 @@ export default function AddCourse() {
                 return [...prev, topic];
             }
         });
+        console.log(selectedTopics);
     };
 
     const onGenerateTopic = async () => {
@@ -36,11 +37,14 @@ export default function AddCourse() {
     }
 
     const onGenerateCourse = async() => {
+        console.log("clicked")
         setLoading(true);
         const PROMPT = selectedTopics+Prompt.COURSE;
         const aiRes = await GenerateCourseAiModel.sendMessage(PROMPT);
         const resp = JSON.parse(aiRes.response.text());
+        console.log(resp);
         const courses = resp.courses;
+        
         courses?.forEach(async(course) => {
             const docId = Date.now().toString()
             await setDoc(doc(db,'Courses',docId),{

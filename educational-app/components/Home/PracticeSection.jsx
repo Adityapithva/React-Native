@@ -1,9 +1,11 @@
-import { View, Text, FlatList, Image } from 'react-native'
+import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import {PracticeOption} from '../../constants/Option';
 import Colors from '../../constants/Colors';
+import { useRouter } from 'expo-router';
 
 export default function PracticeSection() {
+    const router = useRouter();
     return (
         <View style={{
             marginTop:10
@@ -17,12 +19,11 @@ export default function PracticeSection() {
                     data={PracticeOption}
                     numColumns={3}
                     renderItem={({item,index})=> (
-                        <View key={index} style={{
+                        <TouchableOpacity key={index} style={{
                             flex:1,
                             margin:5,
                             aspectRatio:1
-                        }}>
-                        {console.log(item.image)}
+                        }} onPress={() => router.push('/practice/'+item.name)}>
                             <Image source={item?.image} style={{
                                 width:'100%',
                                 height:'100%',
@@ -36,7 +37,7 @@ export default function PracticeSection() {
                                 fontFamily:'outfit',
                                 color:Colors.white
                             }}>{item?.name}</Text>
-                        </View>
+                        </TouchableOpacity>
                     )}
                 />
             </View>

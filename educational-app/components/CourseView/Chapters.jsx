@@ -6,6 +6,10 @@ import { useRouter } from 'expo-router';
 
 export default function Chapters({course}) {
     const router = useRouter();
+    const isChapterCompleted = (index) => {
+        const isCompleted = course?.completedChapter.find(item=>item==index);
+        return isChapterCompleted?true:false;
+    }
     return (
         <View style={{
             padding:20
@@ -30,7 +34,7 @@ export default function Chapters({course}) {
                         pathname:'/ChapterView',
                         params:{
                             chapterParams:JSON.stringify(item),
-                            docId:item?.docId,
+                            docId:course?.docId,
                             chapterIndex:index
                         }
                     })}>
@@ -42,7 +46,10 @@ export default function Chapters({course}) {
                             <Text style={styles.chapterText}>{index+1}.</Text>
                             <Text style={styles.chapterText}>{item.chapterName}</Text>
                         </View>
-                        <Ionicons name="play" size={24} color={Colors.primary} />
+                        {isChapterCompleted(index)?<Ionicons name="checkmark-circle" size={24} color="black" />
+                        
+                        : <Ionicons name="play" size={24} color={Colors.primary} />
+                        }
                     </TouchableOpacity>
                 )}
             />
