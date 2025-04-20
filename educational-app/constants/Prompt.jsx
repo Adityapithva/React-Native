@@ -8,7 +8,7 @@ export default {
     - Output will be ARRAY of String in JSON FORMAT only
     - Do not add any plain text in output,
     `,
-    // - Chapter Explain in HTML Form, (Code example if required), add line break if required
+
     COURSE: dedent`: As you are coaching teacher
     - User want to learn about all topics
     - Create 2 Courses With Course Name, Description, and 5/8 Chapters in each course
@@ -27,6 +27,7 @@ export default {
     "description": '',
     "banner_image": "/banner1.png",
     "category":"",
+    "completedChapter":[],
     "chapters": [
       {
         chapterName: '',
@@ -35,7 +36,7 @@ export default {
             topic: '<Topic Name in 2 to 4 worlds ex.(Creating Variables)>'
             explain: '< Detailed Explaination in 5 to 8 Lines if required>',
             code: '<Code example of required else null',
-            example: '< example of must required'
+            example: '< example  must required'
           },
           
             ...

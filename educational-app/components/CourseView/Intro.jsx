@@ -10,7 +10,6 @@ export default function Intro({ course }) {
     const router = useRouter();
     return (
         <View>
-            
             <Image source={imageAssets[course?.banner_image]}
                 style={{
                     width: '100%',

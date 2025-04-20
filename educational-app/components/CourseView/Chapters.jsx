@@ -8,7 +8,7 @@ export default function Chapters({course}) {
     const router = useRouter();
     const isChapterCompleted = (index) => {
         const isCompleted = course?.completedChapter.find(item=>item==index);
-        return isChapterCompleted?true:false;
+        return isCompleted?true:false;
     }
     return (
         <View style={{
@@ -46,7 +46,7 @@ export default function Chapters({course}) {
                             <Text style={styles.chapterText}>{index+1}.</Text>
                             <Text style={styles.chapterText}>{item.chapterName}</Text>
                         </View>
-                        {isChapterCompleted(index)?<Ionicons name="checkmark-circle" size={24} color="black" />
+                        {isChapterCompleted(index)?<Ionicons name="checkmark-circle" size={24} color={Colors.green} />
                         
                         : <Ionicons name="play" size={24} color={Colors.primary} />
                         }

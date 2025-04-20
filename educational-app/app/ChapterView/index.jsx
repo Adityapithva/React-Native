@@ -1,70 +1,72 @@
-import { View, Text, Dimensions, StyleSheet } from 'react-native';
-import React, { useState } from 'react';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import * as Progress from 'react-native-progress';
+import { View, Text, Dimensions,StyleSheet } from 'react-native'
+import React, { useState } from 'react'
+import { useLocalSearchParams, useRouter } from 'expo-router'
+import * as Progress from 'react-native-progress'
 import Colors from '../../constants/Colors';
 import Button from '../../components/Shared/Button';
 import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../config/FirebaseConfig';
 
 export default function ChapterView() {
-    const { chapterParams, docId, chapterIndex } = useLocalSearchParams();
+    const {chapterParams,docId,chapterIndex} = useLocalSearchParams();
+    const [currPage,setCurrPage] = useState(0);
     const chapters = JSON.parse(chapterParams);
-    const [currPage, setCurrPage] = useState(0);
-    const[loading,setLoading] = useState(false);
     const router = useRouter();
-    const getProgress = (currPage) => {
-        const per = (currPage / chapters?.content?.length);
+    const [loader,setLoader] = useState(false);
+    const GetProgress = (currPage) => {
+        const per = (currPage/chapters?.content?.length);
         return per;
-    };
-
-    const currentChapter = chapters?.content[currPage];
-    const onChapterComplete = async() => {
-        setLoading(true);
+    }
+    const onChapterComplete =async()=> {
+        setLoader(true);
         await updateDoc(doc(db,'Courses',docId),{
             completedChapter:arrayUnion(chapterIndex)
         })
-        setLoading(false);
-        router.back();
+        setLoader(false);
+        router.replace('/courseView/'+docId);
     }
     return (
-        <View style={{ padding: 25, backgroundColor: Colors.white, flex: 1 }}>
-            <Progress.Bar progress={getProgress(currPage)} width={Dimensions.get('screen').width * 0.85} />
-            <View style={{ marginTop: 20 }}>
-                <Text style={{ fontFamily: 'outfit-bold', fontSize: 25 }}>{currentChapter?.topic}</Text>
-                <Text style={{ fontFamily: 'outfit', fontSize: 20, marginTop: 7 }}>{currentChapter?.explain}</Text>
-
-                {currentChapter?.code!== 'null' && (
-                    <Text style={[styles.codeExampleText, { backgroundColor: Colors.black,color:Colors.white }]}>
-                        {currentChapter?.code}
-                    </Text>
-                )}
-
-                {currentChapter?.example!== 'null' && (
-                    <Text style={styles.codeExampleText}>{currentChapter?.example}</Text>
-                )}
+        <View style={{
+            padding:25,
+            backgroundColor:Colors.white,
+            flex:1
+        }}>
+            <Progress.Bar progress={GetProgress(currPage)} width={Dimensions.get('screen').width*0.85}/>
+            <View style={{
+                marginTop:20
+            }}>
+                <Text style={{
+                    fontFamily:'outfit-bold',
+                    fontSize:25
+                }}>{chapters?.content[currPage]?.topic}</Text>
+                <Text style={{
+                    fontFamily:'outfit',
+                    fontSize:20,
+                    marginTop:7
+                }}>{chapters?.content[currPage]?.explain}</Text>
+                {chapters?.content[currPage]?.code&&<Text style={[styles.codeExampleText,{backgroundColor:Colors.black,color:Colors.white}]}>{chapters?.content[currPage]?.code}</Text>}
+                {chapters?.content[currPage]?.example&&<Text style={styles.codeExampleText}>{chapters?.content[currPage]?.example}</Text>}
             </View>
             <View style={{
                 position:'absolute',
                 bottom:10,
-                left:25,
-                width:'100%'
+                width:'100%',
+                left:25
             }}>
-                {chapters?.content?.length-1!= currPage ? <Button text={'Next'} onPress={() => setCurrPage(currPage + 1)} /> : 
-                    <Button text={'Finish'} onPress={() => onChapterComplete()} loading={loading}/>}
-                
+                {chapters?.content?.length-1!=currPage?
+                <Button text={'Next'} onPress={()=> setCurrPage(currPage+1)}/>
+                :<Button text={'Finish'} onPress={()=> onChapterComplete()} loading={loader}/>}
             </View>
         </View>
-    );
+    )
 }
 
 const styles = StyleSheet.create({
-    codeExampleText: {
-        padding: 15,
-        backgroundColor: Colors.bg_gray,
-        borderRadius: 15,
-        fontFamily: 'outfit',
-        fontSize: 18,
-        marginTop: 15,
+    codeExampleText:{
+        padding:15,
+        backgroundColor:Colors.gray,
+        fontFamily:'outfit',
+        fontSize:18,
+        marginTop:15
     }
 });

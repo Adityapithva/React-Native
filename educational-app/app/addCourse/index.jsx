@@ -17,14 +17,13 @@ export default function AddCourse() {
     const{userDetail,setUserDetail} = useContext(UserDetailContext);
     const router = useRouter();
     const onTopicSelect = (topic) => {
-        setSelectedTopics((prev) => {
-            if (prev.includes(topic)) {
-                return prev.filter(item => item !== topic);
-            } else {
-                return [...prev, topic];
-            }
-        });
-        console.log(selectedTopics);
+        const isAlreadyExist = selectedTopics.find((item) => item == topic);
+        if(!isAlreadyExist){
+            setSelectedTopics(prev=>[...prev,topic])
+        }else{
+            const topics = selectedTopics.filter(item => item!== topic);
+            setSelectedTopics(topics);
+        }
     };
 
     const onGenerateTopic = async () => {
@@ -37,20 +36,19 @@ export default function AddCourse() {
     }
 
     const onGenerateCourse = async() => {
-        console.log("clicked")
         setLoading(true);
         const PROMPT = selectedTopics+Prompt.COURSE;
+        console.log(PROMPT);
         const aiRes = await GenerateCourseAiModel.sendMessage(PROMPT);
         const resp = JSON.parse(aiRes.response.text());
         console.log(resp);
         const courses = resp.courses;
-        
         courses?.forEach(async(course) => {
             const docId = Date.now().toString()
             await setDoc(doc(db,'Courses',docId),{
                 ...course,
                 createdOn:new Date(),
-                createdBy:userDetail?.email,
+                createdBy:userDetail?.email ?? '',
                 docId:docId
             })
         })
