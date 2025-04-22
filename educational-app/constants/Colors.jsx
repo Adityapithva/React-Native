@@ -4,5 +4,6 @@ export default{
     gray:'#858585',
     bg_gray:'#f2f2f2',
     black:'#000',
-    green:'#00ff00'
+    green:'#00ff00',
+    light_green:'#dbffdd'
 }

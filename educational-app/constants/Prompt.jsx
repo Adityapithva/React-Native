@@ -28,6 +28,7 @@ export default {
     "banner_image": "/banner1.png",
     "category":"",
     "completedChapter":[],
+    "quizResult":[],
     "chapters": [
       {
         chapterName: '',

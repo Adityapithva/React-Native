@@ -33,19 +33,11 @@ export default function Home() {
             onRefresh={() => getCourseList()}
             refreshing={loading}
             ListHeaderComponent={
-                <View style={{
-                    flex:1,
-                    backgroundColor:Colors.white
-                }}>
-                    <Image source={require('./../../assets/images/wave.png')}
-                        style={{
-                            position: 'absolute',
-                            width:'100%',
-                        }}
-                    />
                     <View style={{
                         padding: 25,
                         paddingTop: Platform.OS == 'ios' && 45,
+                        backgroundColor:Colors.white,
+                        flex:1
                     }}>
                         <Header />
                         {courseList?.length == 0 ?
@@ -57,7 +49,6 @@ export default function Home() {
                             </View>}
 
                     </View>
-                </View>
             }
         />
     )
