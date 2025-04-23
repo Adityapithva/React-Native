@@ -1,6 +1,6 @@
 import { View, Text, Image, Pressable, Dimensions, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
-import { useLocalSearchParams } from 'expo-router'
+import { useLocalSearchParams, useRouter } from 'expo-router'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import * as Progress from 'react-native-progress'
 import Colors from '../../constants/Colors';
@@ -16,6 +16,7 @@ export default function Quiz() {
     const [selectedOption, setSelectedOption] = useState();
     const [result, setResult] = useState([]);
     const [loading,setLoading] = useState(false);
+    const router = useRouter();
     const GetProgress = (currentPage) => {
         const per = (currentPage / quiz?.length);
         return per;
@@ -29,13 +30,18 @@ export default function Quiz() {
                 correctAns: quiz[currPage]?.correctAns
             }
         }))
-        console.log(result);
     }
     const onQuizFinish = async () => {
         setLoading(true);
         try {
             await updateDoc(doc(db, 'Courses', course.docId), {
                 quizResult: result
+            })
+            router.replace({
+                pathname:'/quiz/summary',
+                params:{
+                    quizResultParam:JSON.stringify(result)
+                }
             })
         } catch (e) {
             console.log(e);
@@ -45,7 +51,9 @@ export default function Quiz() {
     }
     return (
         <View style={{
-            padding: 25
+            padding: 25,
+            position:'absolute',
+            width:'100%'
         }}>
             <View style={{
                 display: 'flex',
@@ -59,7 +67,6 @@ export default function Quiz() {
                 <Text style={{
                     fontFamily: 'outfit-bold',
                     fontSize: 25,
-
                 }}>{currPage + 1} of {quiz?.length}</Text>
             </View>
             <View style={{
