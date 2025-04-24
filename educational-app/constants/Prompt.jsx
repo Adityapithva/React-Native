@@ -11,7 +11,7 @@ export default {
 
     COURSE: dedent`: As you are coaching teacher
     - User want to learn about all topics
-    - Create 2 Courses With Course Name, Description, and 5/8 Chapters in each course
+    - Create 2 Courses With Course Name, Description, and 5 to 8 Chapters in each course
     - Make sure to add chapters 
     - List Content in each chapter along with Description in 5 to 8 lines
     - Do not Just Explain what chapter about, Explain in Detail with Example

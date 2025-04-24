@@ -3,9 +3,11 @@ import React, { useContext } from 'react'
 import { UserDetailContext } from './../../context/UserDetailContext';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Colors from '../../constants/Colors';
+import { useRouter } from 'expo-router';
 
 export default function Header() {
     const { userDetail, setUserDetail } = useContext(UserDetailContext);
+    const router = useRouter();
     return (
         <View style={{
             display:'flex',
@@ -23,7 +25,7 @@ export default function Header() {
                     fontSize: 17,
                 }}>Let's Get Started!</Text>
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=>router.push('/addCourse')}>
             <Ionicons name="settings-outline" size={32} color="black" />
             </TouchableOpacity>
         </View>

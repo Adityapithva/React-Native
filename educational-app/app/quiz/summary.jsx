@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import Colors from '../../constants/Colors';
 import Button from '../../components/Shared/Button';
-import { useRoute } from '@react-navigation/native';
 export default function QuizSummary() {
     const { quizResultParam } = useLocalSearchParams();
     const quizResult = JSON.parse(quizResultParam);

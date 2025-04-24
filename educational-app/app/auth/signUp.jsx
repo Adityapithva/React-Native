@@ -3,36 +3,48 @@ import React, { useContext, useState } from 'react'
 import Colors from './../../constants/Colors';
 import { useRouter } from 'expo-router';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { db,auth } from '../../config/FirebaseConfig';
-import { setDoc,doc } from 'firebase/firestore';
+import { db, auth } from '../../config/FirebaseConfig';
+import { setDoc, doc } from 'firebase/firestore';
 import { UserDetailContext } from '../../context/UserDetailContext';
+import { ToastAndroid } from 'react-native';
 
 export default function SignUp() {
     const router = useRouter();
-    const [fullName,setFullName] = useState();
-    const [password,setPassword] = useState();
-    const [email,setEmail] = useState();
-    const {userDetail,setUserDetail} = useContext(UserDetailContext);
+    const [fullName, setFullName] = useState();
+    const [password, setPassword] = useState();
+    const [email, setEmail] = useState();
+    const { userDetail, setUserDetail } = useContext(UserDetailContext);
     const createNewAccount = () => {
-        createUserWithEmailAndPassword(auth,email,password)
-        .then(async(res) => {
-            const user = res.user;
-            console.log(user);
-            await saveUser(user);
-        })
-        .catch(err => {
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(async (res) => {
+                const user = res.user;
+                console.log(user);
+                await saveUser(user);
+            })
+            .catch(err => {
+                let errorMessage = "Something went wrong";
+            if (err.code === 'auth/email-already-in-use') {
+                errorMessage = 'Email already in use.';
+            } else if (err.code === 'auth/invalid-email') {
+                errorMessage = 'Invalid email address.';
+            } else if (err.code === 'auth/weak-password') {
+                errorMessage = 'Password should be at least 6 characters.';
+            }
+
+            ToastAndroid.show(errorMessage, ToastAndroid.LONG);
             console.log(err);
-        })
+                
+            })
 
     }
-    const saveUser = async(user) => {
+    const saveUser = async (user) => {
         const data = {
-            name:fullName,
-            email:email,
-            member:false,
-            uid:user?.uid
+            name: fullName,
+            email: email,
+            member: false,
+            uid: user?.uid
         }
-        await setDoc(doc(db,'users',email),data);
+        await setDoc(doc(db, 'users', email), data);
         setUserDetail(data);
     }
     return (
@@ -54,9 +66,9 @@ export default function SignUp() {
                 fontSize: 30,
                 fontFamily: 'outfit-bold'
             }}>Create New Account</Text>
-            <TextInput placeholder='Full Name' style={styles.textInput} onChangeText={(val) => setFullName(val)}/>
-            <TextInput placeholder='Email' style={styles.textInput} onChangeText={(val) => setEmail(val)}/>
-            <TextInput placeholder='Password' style={styles.textInput} secureTextEntry={true} onChangeText={(val) => setPassword(val)}/>
+            <TextInput placeholder='Full Name' style={styles.textInput} onChangeText={(val) => setFullName(val)} />
+            <TextInput placeholder='Email' style={styles.textInput} onChangeText={(val) => setEmail(val)} />
+            <TextInput placeholder='Password' style={styles.textInput} secureTextEntry={true} onChangeText={(val) => setPassword(val)} />
             <TouchableOpacity style={{
                 padding: 15,
                 backgroundColor: Colors.primary,
@@ -72,19 +84,19 @@ export default function SignUp() {
                 }}>Create Account</Text>
             </TouchableOpacity>
             <View style={{
-                display:'flex',
-                flexDirection:'row',
-                gap:5,
-                marginTop:20
+                display: 'flex',
+                flexDirection: 'row',
+                gap: 5,
+                marginTop: 20
             }}>
                 <Text style={{
-                    fontFamily:'outfit'
+                    fontFamily: 'outfit'
                 }}>
                     Already have an Account? </Text>
                 <Pressable onPress={() => router.push('/auth/signIn')}>
                     <Text style={{
-                        color:Colors.primary,
-                        fontFamily:'outfit-bold'
+                        color: Colors.primary,
+                        fontFamily: 'outfit-bold'
                     }}>Sign In Here</Text>
                 </Pressable>
 

@@ -18,13 +18,18 @@ export default function Home() {
         userDetail && getCourseList();
     }, [userDetail])
     const getCourseList = async () => {
-        setLoading(true);
         setCourseList([]);
-        const q = query(collection(db, 'Courses'), where("createdBy", "==", userDetail?.email));
-        const querySnapShot = await getDocs(q);
-        querySnapShot.forEach((doc) => {
-            setCourseList(prev => [...prev, doc.data()])
-        });
+        setLoading(true);
+        try {
+            const q = query(collection(db, 'Courses'), where("createdBy", "==", userDetail?.email));
+            const querySnapShot = await getDocs(q);
+            querySnapShot.forEach((doc) => {
+                setCourseList(prev => [...prev, doc.data()])
+            });
+        } catch (e) {
+            console.log('err',e);
+            setLoading(false);
+        }
         setLoading(false);
     };
     return (
@@ -33,22 +38,22 @@ export default function Home() {
             onRefresh={() => getCourseList()}
             refreshing={loading}
             ListHeaderComponent={
-                    <View style={{
-                        padding: 25,
-                        paddingTop: Platform.OS == 'ios' && 45,
-                        backgroundColor:Colors.white,
-                        flex:1
-                    }}>
-                        <Header />
-                        {courseList?.length == 0 ?
-                            <NoCourse /> :
-                            <View>
-                                <CourseProgress courseList={courseList} />
-                                <PracticeSection />
-                                <CourseList courseList={courseList} />
-                            </View>}
+                <View style={{
+                    padding: 25,
+                    paddingTop: Platform.OS == 'ios' && 45,
+                    backgroundColor: Colors.white,
+                    flex: 1
+                }}>
+                    <Header />
+                    {courseList?.length == 0 ?
+                        <NoCourse /> :
+                        <View>
+                            <CourseProgress courseList={courseList} />
+                            <PracticeSection />
+                            <CourseList courseList={courseList} />
+                        </View>}
 
-                    </View>
+                </View>
             }
         />
     )

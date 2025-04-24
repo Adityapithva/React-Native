@@ -5,7 +5,7 @@ import Colors from '../../constants/Colors';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
 
-export default function CourseList({ courseList }) {
+export default function CourseList({ courseList,heading="Courses" }) {
     const router = useRouter();
     return (
         <View style={{
@@ -14,7 +14,7 @@ export default function CourseList({ courseList }) {
             <Text style={{
                 fontFamily: 'outfit-bold',
                 fontSize: 25
-            }}>Courses</Text>
+            }}>{heading}</Text>
             <FlatList
                 data={courseList}
                 horizontal={true}

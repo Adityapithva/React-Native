@@ -61,7 +61,7 @@ export default function Quiz() {
                 justifyContent: 'space-between',
                 alignItems: 'center'
             }}>
-                <Pressable>
+                <Pressable onPress={()=> router.back()}>
                     <Ionicons name="arrow-back" size={30} color="black" />
                 </Pressable>
                 <Text style={{
